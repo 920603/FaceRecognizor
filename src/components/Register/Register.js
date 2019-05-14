@@ -2,29 +2,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from "react";
 
-class SignIn extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signInEmail: "",
-      signInPassword: ""
+      name: "",
+      email: "",
+      password: ""
     };
   }
 
+  onNameChange = e => {
+    this.setState({ name: e.target.value });
+  };
   onEmailChange = e => {
-    this.setState({ signInEmail: e.target.value });
+    this.setState({ email: e.target.value });
   };
   onPasswordChange = e => {
-    this.setState({ signInPassword: e.target.value });
+    this.setState({ password: e.target.value });
   };
-  onSubmitSignIn = () => {
-    fetch("https://afternoon-brook-73087.herokuapp.com/signin", {
+  onSubmit = () => {
+    fetch("https://afternoon-brook-73087.herokuapp.com/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.signInEmail,
-        password: this.state.signInPassword
-      })
+      body: JSON.stringify(this.state)
     })
       .then(res => res.json())
       .then(user => {
@@ -41,7 +42,19 @@ class SignIn extends React.Component {
         <main className="pa4 black-80">
           <div className="measure">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0"> Sign In </legend>
+              <legend className="f1 fw6 ph0 mh0"> Register </legend>
+              <div className="mt3">
+                <label className="db fw6 lh-copy f6" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  onChange={this.onNameChange}
+                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  type="text"
+                  name="name"
+                  id="name"
+                />
+              </div>
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
                   Email
@@ -69,19 +82,11 @@ class SignIn extends React.Component {
             </fieldset>
             <div className="">
               <input
-                onClick={this.onSubmitSignIn}
+                onClick={this.onSubmit}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
-                value="Sign in"
+                value="Register"
               />
-            </div>
-            <div className="lh-copy mt3">
-              <p
-                onClick={() => this.props.onRouteChange("register")}
-                className="f6 link dim black db pointer"
-              >
-                Register
-              </p>
             </div>
           </div>
         </main>
@@ -90,4 +95,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+export default Register;
